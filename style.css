@@ -13862,7 +13862,9 @@ body.white-version {
 
 .white-version #sideNav .primary-menu li a {
   color: var(--color-body-white);
-  font-weight: 600; }
+  font-weight: 900;
+  font-size: 1em;
+ }
 
 .white-version .section-separator::after {
   background: #dce1e4; }

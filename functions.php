@@ -5,10 +5,18 @@ function bioroshan_theme_setup() {
     add_theme_support('title-tag');
     add_theme_support('custom-logo', ['height' => 100, 'width' => 300, 'flex-height' => true]);
     add_theme_support('post-thumbnails');
+    
     // Register menus
     register_nav_menus(['primary_menu' => __('Primary Menu', 'bioroshan')]);
+
+    // Add favicon to the header
+    function bioroshan_add_favicon() {
+        echo '<link rel="icon" href="' . get_template_directory_uri() . '/favicon.ico" type="image/x-icon" />';
+    }
+    add_action('wp_head', 'bioroshan_add_favicon');
 }
 add_action('after_setup_theme', 'bioroshan_theme_setup');
+
 
 // Enqueue scripts and styles
 function bioroshan_enqueue_assets() {
