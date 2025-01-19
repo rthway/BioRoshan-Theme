@@ -192,5 +192,77 @@ function bioroshan_customize_register($wp_customize) {
         'section' => 'bioroshan_skills_section',
         'settings' => 'skill_icon_3',
     )));
+
+
+
+
+
+    // Add Service Section Customizer Settings
+    $wp_customize->add_section('service_area', array(
+        'title'    => __('Service Area', 'bioroshan'),
+        'priority' => 30,
+    ));
+
+    // Add settings for subtitle and title
+    $wp_customize->add_setting('features_subtitle', array(
+        'default'   => '',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('features_subtitle', array(
+        'label'    => __('Features Subtitle', 'bioroshan'),
+        'section'  => 'service_area',
+        'type'     => 'text',
+    ));
+
+    $wp_customize->add_setting('what_i_do_title', array(
+        'default'   => '',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('what_i_do_title', array(
+        'label'    => __('What I Do Title', 'bioroshan'),
+        'section'  => 'service_area',
+        'type'     => 'text',
+    ));
+
+    // Add service icon, title, and description fields for each service
+    for ($i = 1; $i <= 6; $i++) {
+        // Service icon (image upload)
+        $wp_customize->add_setting("service_icon_$i", array(
+            'default'   => '',
+            'transport' => 'refresh',
+        ));
+        $wp_customize->add_control(new WP_Customize_Image_Control(
+            $wp_customize, "service_icon_$i", array(
+                'label'    => __("Service $i Icon", 'bioroshan'),
+                'section'  => 'service_area',
+                'settings' => "service_icon_$i",
+            )
+        ));
+        $wp_customize->add_control("service_icon_$i", array(
+            'label'    => __("Service $i Icon", 'bioroshan'),
+            'section'  => 'service_area',
+            'type'     => 'text',
+        ));
+
+        $wp_customize->add_setting("service_title_$i", array(
+            'default'   => '',
+            'transport' => 'refresh',
+        ));
+        $wp_customize->add_control("service_title_$i", array(
+            'label'    => __("Service $i Title", 'bioroshan'),
+            'section'  => 'service_area',
+            'type'     => 'text',
+        ));
+
+        $wp_customize->add_setting("service_description_$i", array(
+            'default'   => '',
+            'transport' => 'refresh',
+        ));
+        $wp_customize->add_control("service_description_$i", array(
+            'label'    => __("Service $i Description", 'bioroshan'),
+            'section'  => 'service_area',
+            'type'     => 'textarea',
+        ));
+    }
 }
 add_action('customize_register', 'bioroshan_customize_register');

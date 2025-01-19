@@ -84,6 +84,47 @@
     </div>
     <!-- End Slider Area -->
 
+    <div class="rn-service-area rn-section-gap section-separator" id="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title text-left" data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true">
+                        <span class="subtitle"><?php echo esc_html(get_theme_mod('features_subtitle', '')); ?></span>
+                        <h2 class="title"><?php echo esc_html(get_theme_mod('what_i_do_title', 'What We Do')); ?></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row row--25 mt_md--10 mt_sm--10">
+
+                <?php
+                // Loop through service 1 to 6
+                for ($i = 1; $i <= 6; $i++) :
+                    $service_icon_url = get_theme_mod("service_icon_$i", '');
+                    $service_title = get_theme_mod("service_title_$i", '');
+                    $service_description = get_theme_mod("service_description_$i", '');
+                ?>
+                    <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="<?php echo (100 * $i); ?>" data-aos-once="true" class="col-lg-6 col-xl-4 col-md-6 col-sm-12 col-12 mt--50 mt_md--30 mt_sm--30">
+                        <div class="rn-service">
+                            <div class="inner">
+                                <div class="icon">
+                                    <?php if ($service_icon_url) : ?>
+                                        <img src="<?php echo esc_url($service_icon_url); ?>" alt="Service Icon">
+                                    <?php endif; ?>
+                                </div>
+                                <div class="content">
+                                    <h4 class="title"><a href="#"><?php echo esc_html($service_title); ?></a></h4>
+                                    <p class="description"><?php echo esc_html($service_description); ?></p>
+                                    <a class="read-more-button" href="#"><i class="feather-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            <a class="over-link" href="#"></a>
+                        </div>
+                    </div>
+                <?php endfor; ?>
+            </div>
+        </div>
+    </div>
+
 
 
 
