@@ -46,7 +46,7 @@
                                         </li>
                                         <li class="instagram">
                                             <a href="<?php echo esc_url(get_theme_mod('instagram_url', '#')); ?>" target="_blank">
-                                                <i class="fab fa-instagram" ></i> <!-- Font Awesome Instagram Icon -->
+                                                <i class="fa-brands fa-github"></i>
                                             </a>
                                         </li>
                                         <li class="linkedin">
@@ -83,6 +83,11 @@
         </div>
     </div>
     <!-- End Slider Area -->
+
+
+
+
+    
 
 
 </main>
