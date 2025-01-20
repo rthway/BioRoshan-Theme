@@ -269,44 +269,55 @@ add_action('customize_register', 'bioroshan_customize_register');
 
 
 
-
+// Function to register the custom post type "Portfolio"
 function register_portfolio_post_type() {
+    // Define labels for the Portfolio custom post type
     $labels = array(
-        'name'               => __('Portfolios'),
-        'singular_name'      => __('Portfolio'),
-        'add_new'            => __('Add New Portfolio'),
-        'add_new_item'       => __('Add New Portfolio Item'),
-        'edit_item'          => __('Edit Portfolio Item'),
-        'new_item'           => __('New Portfolio Item'),
-        'view_item'          => __('View Portfolio Item'),
-        'search_items'       => __('Search Portfolios'),
-        'not_found'          => __('No portfolios found'),
-        'not_found_in_trash' => __('No portfolios found in trash'),
-        'menu_name'          => __('Portfolios'),
+        'name'               => __('Portfolios'), // Name of the post type in the admin menu
+        'singular_name'      => __('Portfolio'), // Singular name for one portfolio item
+        'add_new'            => __('Add New Portfolio'), // Text for the "Add New" button
+        'add_new_item'       => __('Add New Portfolio Item'), // Text for the "Add New Item" page
+        'edit_item'          => __('Edit Portfolio Item'), // Text for the "Edit Item" page
+        'new_item'           => __('New Portfolio Item'), // Text for creating a new item
+        'view_item'          => __('View Portfolio Item'), // Text for viewing a single item
+        'search_items'       => __('Search Portfolios'), // Text for the search functionality
+        'not_found'          => __('No portfolios found'), // Message when no items are found
+        'not_found_in_trash' => __('No portfolios found in trash'), // Message when no items are in the trash
+        'menu_name'          => __('Portfolios'), // Label for the post type in the admin menu
     );
 
+    // Define arguments for registering the Portfolio custom post type
     $args = array(
-        'labels'             => $labels,
-        'public'             => true,
-        'has_archive'        => true,
-        'rewrite'            => array('slug' => 'portfolio'),
-        'supports'           => array('title', 'editor', 'thumbnail', 'custom-fields'),
-        'menu_position'      => 5,
-        'menu_icon'          => 'dashicons-portfolio',
+        'labels'             => $labels, // Assign the labels defined above
+        'public'             => true, // Make the post type visible on the frontend and backend
+        'has_archive'        => true, // Enable archive pages for the post type
+        'rewrite'            => array('slug' => 'portfolio'), // URL slug for the portfolio
+        'supports'           => array('title', 'editor', 'thumbnail', 'custom-fields'), // Features supported by the post type
+        'menu_position'      => 5, // Position in the WordPress admin menu (below "Posts")
+        'menu_icon'          => 'dashicons-portfolio', // Dashicon icon to represent the post type
     );
 
+    // Register the custom post type
     register_post_type('portfolio', $args);
 }
+
+// Hook the function to the 'init' action to register the post type when WordPress initializes
 add_action('init', 'register_portfolio_post_type');
 
 
+// Function to load a custom template for single Portfolio posts
 function portfolio_single_template($single) {
-    global $post;
+    global $post; // Access the global $post object
 
+    // Check if the current post is of type 'portfolio'
     if ($post->post_type == 'portfolio' && file_exists(get_template_directory() . '/single-portfolio.php')) {
+        // If a custom template exists, use it for displaying single Portfolio posts
         return get_template_directory() . '/single-portfolio.php';
     }
 
+    // Return the default template if no custom template is found
     return $single;
 }
+
+// Hook the function to the 'single_template' filter to determine which template to use for single posts
 add_filter('single_template', 'portfolio_single_template');

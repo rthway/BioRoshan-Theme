@@ -126,7 +126,7 @@
     </div>
 
 
-
+    <!-- Start Portfolio Area -->
     <div class="rn-portfolio-area rn-section-gap section-separator" id="portfolio">
     <div class="container">
         <div class="row">
@@ -178,6 +178,7 @@
         </div>
     </div>
 </div>
+<!-- End portfolio Area -->
 
 
 
