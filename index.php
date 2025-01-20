@@ -127,6 +127,62 @@
 
 
 
+    <div class="rn-portfolio-area rn-section-gap section-separator" id="portfolio">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title text-center">
+                    <span class="subtitle">Visit my portfolio and keep your feedback</span>
+                    <h2 class="title">My Portfolio</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row--25 mt--10 mt_md--10 mt_sm--10">
+            <?php
+            $args = array('post_type' => 'portfolio', 'posts_per_page' => -1);
+            $query = new WP_Query($args);
+            if ($query->have_posts()) :
+                while ($query->have_posts()) : $query->the_post();
+                    $category = get_post_meta(get_the_ID(), 'portfolio_category', true);
+                    $likes = get_post_meta(get_the_ID(), 'portfolio_likes', true);
+                    ?>
+                    <div class="col-lg-6 col-xl-4 col-md-6 col-12 mt--50 mt_md--30 mt_sm--30">
+                        <div class="rn-portfolio">
+                            <div class="inner">
+                                <div class="thumbnail">
+                                    <a href="<?php the_permalink(); ?>">
+                                        <?php the_post_thumbnail('full'); ?>
+                                    </a>
+                                </div>
+                                <div class="content">
+                                    <div class="category-info">
+                                        <div class="category-list">
+                                            <a href="#"><?php echo esc_html($category); ?></a>
+                                        </div>
+                                        <div class="meta">
+                                            <span><a href="#"><i class="feather-heart"></i></a>
+                                                <?php echo intval($likes); ?></span>
+                                        </div>
+                                    </div>
+                                    <h4 class="title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?> <i
+                                                class="feather-arrow-up-right"></i></a></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 
     
 

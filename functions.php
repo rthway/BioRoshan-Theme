@@ -266,3 +266,47 @@ function bioroshan_customize_register($wp_customize) {
     }
 }
 add_action('customize_register', 'bioroshan_customize_register');
+
+
+
+
+function register_portfolio_post_type() {
+    $labels = array(
+        'name'               => __('Portfolios'),
+        'singular_name'      => __('Portfolio'),
+        'add_new'            => __('Add New Portfolio'),
+        'add_new_item'       => __('Add New Portfolio Item'),
+        'edit_item'          => __('Edit Portfolio Item'),
+        'new_item'           => __('New Portfolio Item'),
+        'view_item'          => __('View Portfolio Item'),
+        'search_items'       => __('Search Portfolios'),
+        'not_found'          => __('No portfolios found'),
+        'not_found_in_trash' => __('No portfolios found in trash'),
+        'menu_name'          => __('Portfolios'),
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'has_archive'        => true,
+        'rewrite'            => array('slug' => 'portfolio'),
+        'supports'           => array('title', 'editor', 'thumbnail', 'custom-fields'),
+        'menu_position'      => 5,
+        'menu_icon'          => 'dashicons-portfolio',
+    );
+
+    register_post_type('portfolio', $args);
+}
+add_action('init', 'register_portfolio_post_type');
+
+
+function portfolio_single_template($single) {
+    global $post;
+
+    if ($post->post_type == 'portfolio' && file_exists(get_template_directory() . '/single-portfolio.php')) {
+        return get_template_directory() . '/single-portfolio.php';
+    }
+
+    return $single;
+}
+add_filter('single_template', 'portfolio_single_template');
