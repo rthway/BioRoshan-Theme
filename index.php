@@ -371,6 +371,113 @@
 </div>
 <!-- End Contact section -->
 
+<?php
+$categories = get_terms(array(
+    'taxonomy'   => 'client_category',
+    'hide_empty' => true,
+));
+
+if (!empty($categories)): ?>
+    <div class="rn-client-area rn-section-gap section-separator" id="clients">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <span class="subtitle">Popular Clients</span>
+                        <h2 class="title">Awesome Clients</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row--25 mt--50 mt_md--40 mt_sm--40">
+                <div class="col-lg-4">
+                    <div class="d-flex flex-wrap align-content-start h-100">
+                        <div class="position-sticky clients-wrapper sticky-top rbt-sticky-top-adjust">
+                            <ul class="nav tab-navigation-button flex-column nav-pills me-3" id="v-pills-tab" role="tablist">
+                            <?php
+                                $first = true;
+                                foreach ($categories as $category):
+                                    ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link <?php echo $first ? 'active' : ''; ?>" id="v-pills-<?php echo $category->slug; ?>-tab" data-bs-toggle="pill" href="#v-pills-<?php echo $category->slug; ?>" role="tab" aria-controls="<?php echo $category->slug; ?>" aria-selected="true">
+                                            <?php echo esc_html($category->name); ?>
+                                        </a>
+                                    </li>
+                                    <?php
+                                    $first = false;
+                                endforeach;
+                                ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+    <div class="tab-content" id="v-pills-tabContent">
+        <?php
+        $first = true;
+        foreach ($categories as $category):
+        ?>
+            <div class="tab-pane fade <?php echo $first ? 'show active' : ''; ?>" id="v-pills-<?php echo esc_attr($category->slug); ?>" role="tabpanel" aria-labelledby="v-pills-<?php echo esc_attr($category->slug); ?>-tab">
+                <div class="client-card">
+                    <?php
+                    $clients = new WP_Query(array(
+                        'post_type'      => 'clients',
+                        'posts_per_page' => -1,
+                        'tax_query'      => array(
+                            array(
+                                'taxonomy' => 'client_category',
+                                'field'    => 'slug',
+                                'terms'    => $category->slug,
+                            ),
+                        ),
+                    ));
+                    
+                    if ($clients->have_posts()):
+                        while ($clients->have_posts()):
+                            $clients->the_post();
+                            $client_url = get_post_meta(get_the_ID(), '_client_url', true);                            
+                    ?>
+                            <!-- Start Single Client -->
+                            <div class="main-content">
+                                <div class="inner text-center">
+                                    <div class="thumbnail">
+                                        <a href="<?php echo esc_url(!empty($client_url) ? $client_url : get_permalink()); ?>" target="_blank">
+                                            <?php the_post_thumbnail('medium'); ?>
+                                        </a>
+                                    </div>
+                                    <div class="seperator"></div>
+                                    <div class="client-name">
+                                        <span>
+                                            <a href="<?php echo esc_url(!empty($client_url) ? $client_url : get_permalink()); ?>" target="_blank">
+                                                <?php the_title(); ?>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Single Client -->
+                    <?php
+                        endwhile;
+                        wp_reset_postdata();
+                    else:
+                        echo '<p>No clients available in this category.</p>';
+                    endif;
+                    ?>
+                </div>
+            </div>
+        <?php
+        $first = false;
+        endforeach;
+        ?>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
 
 <?php
 get_footer(); // Loads the footer.php file

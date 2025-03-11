@@ -30,6 +30,8 @@ function bioroshan_enqueue_assets() {
     wp_enqueue_style('main-style', get_stylesheet_uri(), [], '1.0');
     wp_enqueue_script('main-js', get_template_directory_uri() . '/assets/js/main.js', ['jquery'], '1.0', true);
     wp_enqueue_script('text-type-js', get_template_directory_uri() . '/assets/js/vendor/text-type.js', ['jquery'], '1.0', true);
+    wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
+
 
     // Enqueue Font Awesome
     wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css', [], null);
@@ -416,3 +418,63 @@ function portfolio_single_template($single) {
     // Return the default template if no custom template is found
     return $single;
 }
+
+// Register Custom Post Type: Clients
+function create_client_post_type() {
+    register_post_type('clients',
+        array(
+            'labels'      => array(
+                'name'          => __('Clients'),
+                'singular_name' => __('Client'),
+            ),
+            'public'      => true,
+            'supports'    => array('title', 'thumbnail'),
+            'menu_icon'   => 'dashicons-businessman',
+            'has_archive' => false,
+        )
+    );
+}
+add_action('init', 'create_client_post_type');
+
+// Register Custom Taxonomy: Client Categories
+function create_client_taxonomy() {
+    register_taxonomy(
+        'client_category',
+        'clients',
+        array(
+            'label'        => __('Client Categories'),
+            'rewrite'      => array('slug' => 'client-category'),
+            'hierarchical' => true,
+        )
+    );
+}
+add_action('init', 'create_client_taxonomy');
+
+
+
+function add_client_url_meta_box() {
+    add_meta_box(
+        'client_url_meta_box',
+        'Client URL',
+        'display_client_url_meta_box',
+        'clients',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'add_client_url_meta_box');
+
+function display_client_url_meta_box($post) {
+    $client_url = get_post_meta($post->ID, '_client_url', true);
+    ?>
+    <label for="client_url">Enter Client URL:</label>
+    <input type="url" id="client_url" name="client_url" value="<?php echo esc_attr($client_url); ?>" style="width:100%;">
+    <?php
+}
+
+function save_client_url_meta_box($post_id) {
+    if (isset($_POST['client_url'])) {
+        update_post_meta($post_id, '_client_url', esc_url($_POST['client_url']));
+    }
+}
+add_action('save_post', 'save_client_url_meta_box');
