@@ -10,6 +10,7 @@
     <meta name="description" content="<?php bloginfo('description'); ?>">
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo get_template_directory_uri(); ?>/assets/images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Font Awesome for the hamburger icon -->
     <?php wp_head(); ?>
 </head>
 
@@ -49,16 +50,12 @@
                     </nav>
                     <!-- Start Header Right -->
                     <div class="header-right">
-                        <a class="rn-btn" target="_blank" href="#">
-                            <span><?php esc_html_e('BUY NOW', 'bioroshan'); ?></span>
+                        <a class="rn-btn" target="_blank" href="https://www.youtube.com/@whitehillitsolution864">
+                            <span><?php esc_html_e('Youtube', 'bioroshan'); ?></span>
                         </a>
+                        <!-- Hamburger Menu for Mobile -->
                         <div class="hamberger-menu d-block d-xl-none">
-                            <i id="menuBtn" class="feather-menu humberger-menu"></i>
-                        </div>
-                        <div class="close-menu d-block">
-                            <span class="closeTrigger">
-                                <i data-feather="x"></i>
-                            </span>
+                            <i id="menuBtn" class="feather-menu humberger-menu fas fa-bars"></i>
                         </div>
                     </div>
                     <!-- End Header Right -->
@@ -68,3 +65,93 @@
         </div>
     </header>
     <!-- End Header Area -->
+
+    <!-- Mobile Menu (Initially Hidden) -->
+    <div id="mobileMenu" class="mobile-menu d-xl-none">
+        <!-- Close Button -->
+        <div id="closeMenu" class="close-menu">
+            <span><i class="fas fa-times"></i></span>
+        </div>
+
+        <?php
+        wp_nav_menu([
+            'theme_location' => 'primary_menu',
+            'menu_class'     => 'mobile-menu-list',
+            'container'      => false,
+            'fallback_cb'    => false,
+        ]);
+        ?>
+    </div>
+
+    <!-- Add the Toggle Menu Script -->
+    <script>
+        // Toggle the mobile menu
+        document.getElementById('menuBtn').addEventListener('click', function() {
+            var mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close the mobile menu
+        document.getElementById('closeMenu').addEventListener('click', function() {
+            var mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.remove('active');
+        });
+    </script>
+
+    <style>
+        /* Mobile Menu Styles */
+        #mobileMenu {
+            display: none;
+            background: #333;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            padding-top: 50px;
+        }
+
+        #mobileMenu.active {
+            display: block;
+        }
+
+        .mobile-menu-list {
+            list-style-type: none;
+            padding-left: 0;
+            text-align: center;
+        }
+
+        .mobile-menu-list li {
+            padding: 10px 0;
+        }
+
+        .mobile-menu-list li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Mobile Hamburger Icon */
+        .feather-menu {
+            font-size: 30px;
+            color: #fff;
+        }
+
+        /* Close Button Styles */
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        .close-menu i {
+            font-size: 30px;
+            color: #fff;
+        }
+    </style>
+    
+    <?php wp_footer(); ?>
+</body>
+
+</html>

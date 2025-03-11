@@ -1,4 +1,17 @@
 <?php get_header(); ?>
+<!-- Include Feather Icons -->
+<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+<style>
+.social-icone a {
+    font-size: 24px; /* Adjust size as needed */
+    color: #000; /* Adjust color */
+    margin: 0 10px; /* Adjust spacing */
+}
+
+.social-icone a:hover {
+    color: #0073e6; /* Hover color */
+}
+</style>
 
 <main class="main-page-wrapper">
 
@@ -180,16 +193,190 @@
 </div>
 <!-- End portfolio Area -->
 
+<!-- Start News Area -->
+<div class="rn-blog-area rn-section-gap section-separator" id="blog">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="500" data-aos-once="true" class="section-title text-center">
+                    <span class="subtitle">Visit my blog and keep your feedback</span>
+                    <h2 class="title">My Blog</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row row--25 mt--30 mt_md--10 mt_sm--10">
+            <?php
+            $args = array(
+                'post_type'      => 'post', // Change if using a custom post type
+                'posts_per_page' => 3, // Adjust the number of posts displayed
+                'order'          => 'DESC',
+                'orderby'        => 'date'
+            );
+            $query = new WP_Query($args);
+            
+            if ($query->have_posts()) :
+                while ($query->have_posts()) : $query->the_post();
+                    $categories = get_the_category();
+                    $category_name = !empty($categories) ? esc_html($categories[0]->name) : 'Uncategorized';
+            ?>
+            <!-- Start Single Blog -->
+            <div data-aos="fade-up" data-aos-duration="500" class="col-lg-6 col-xl-4 mt--30 col-md-6 col-sm-12 col-12">
+                <div class="rn-blog">
+                    <div class="inner">
+                        <div class="thumbnail">
+                            <a href="<?php the_permalink(); ?>">
+                                <?php if (has_post_thumbnail()) : ?>
+                                    <?php the_post_thumbnail('medium', ['alt' => get_the_title()]); ?>
+                                <?php else : ?>
+                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/blog/default.jpg" alt="Default Blog Image">
+                                <?php endif; ?>
+                            </a>
+                        </div>
+                        <div class="content">
+                            <div class="category-info">
+                                <div class="category-list">
+                                    <a href="<?php echo esc_url(get_category_link($categories[0]->term_id)); ?>">
+                                        <?php echo esc_html($category_name); ?>
+                                    </a>
+                                </div>
+                                <div class="meta">
+                                    <span><i class="feather-clock"></i> <?php echo esc_html(get_the_date()); ?></span>
+                                </div>
+                            </div>
+                            <h4 class="title">
+                                <a href="<?php the_permalink(); ?>">
+                                    <?php the_title(); ?> <i class="feather-arrow-up-right"></i>
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Single Blog -->
+            <?php
+                endwhile;
+                wp_reset_postdata();
+            else :
+                echo '<p class="text-center">No blog posts available.</p>';
+            endif;
+            ?>
+        </div>
+    </div>
+</div>
+<!-- End News Area -->
 
 
 
 
 
-    
+<!-- Start Contact section -->
+<div class="rn-contact-area rn-section-gap section-separator" id="contacts">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title text-center">
+                    <span class="subtitle"><?php echo get_option('contact_section_subtitle', 'Contact'); ?></span>
+                    <h2 class="title"><?php echo get_option('contact_section_title', 'Contact With Me'); ?></h2>
+                </div>
+            </div>
+        </div>
+        <div class="row mt--50 mt_md--40 mt_sm--40 mt-contact-sm">
+            <div class="col-lg-5">
+                <div class="contact-about-area">
+                    <div class="thumbnail">
+                        <img src="<?php echo esc_url(get_theme_mod('contact_image_url', get_template_directory_uri() . '/assets/images/contact/contact1.png')); ?>" alt="contact-img">
+                    </div>
+                    <div class="title-area">
+                        <h4 class="title"><?php echo esc_html(get_theme_mod('contact_person_name', 'Roshan Kumar Thapa')); ?></h4>
+                        <span><?php echo esc_html(get_theme_mod('contact_person_title', 'Chief Operating Officer')); ?></span>
+                    </div>
+                    <div class="description">
+                        <p><?php echo esc_html(get_theme_mod('contact_description', 'I am available for freelance work. Connect with me via and call in to my account.')); ?></p>
+                        <span class="phone">
+                            <?php 
+                                $phone = get_theme_mod('contact_phone', '+01234567890'); 
+                                echo 'Phone: <a href="tel:' . esc_attr($phone) . '">' . esc_html($phone) . '</a>'; 
+                            ?>
+                        </span>
+                        <span class="mail">
+                            <?php 
+                                $email = get_theme_mod('contact_email', 'admin@example.com'); 
+                                echo 'Email: <a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a>'; 
+                            ?>
+                        </span>
+                    </div>
+                    <div class="social-area">
+                        <div class="name"><?php echo esc_html(get_theme_mod('contact_social_title', 'FIND WITH ME')); ?></div>
+                        <div class="social-icone">
+                            <a href="<?php echo esc_url(get_theme_mod('facebook_url', '#')); ?>"><i class="fab fa-facebook"></i></a>
+                            <a href="<?php echo esc_url(get_theme_mod('linkedin_url', '#')); ?>"><i class="fab fa-github"></i></a>
+                            <a href="<?php echo esc_url(get_theme_mod('instagram_url', '#')); ?>"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div data-aos-delay="600" class="col-lg-7 contact-input">
+                <div class="contact-form-wrapper">
+                    <div class="introduce">
+                        <form class="rnt-contact-form rwt-dynamic-form row" id="contact-form" method="POST" action="">
 
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="contact-name">Name</label>
+                                    <input class="form-control form-control-lg" name="contact-name" id="contact-name" type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="contact-phone">Phone</label>
+                                    <input class="form-control" name="contact-phone" id="contact-phone" type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="contact-email">E-mail</label>
+                                    <input class="form-control form-control-sm" id="contact-email" name="contact-email" type="email" required>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="subject">Subject</label>
+                                    <input class="form-control form-control-sm" id="subject" name="subject" type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="contact-message">Your Message</label>
+                                    <textarea name="contact-message" id="contact-message" cols="30" rows="10" required></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <button name="submit" type="submit" id="submit" class="rn-btn">
+                                    <span>SEND MESSAGE</span>
+                                    <i data-feather="arrow-right"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Contact section -->
+
+
+<?php
+get_footer(); // Loads the footer.php file
+?>
 
 </main>
-
 <script type="text/javascript">
 jQuery(document).ready(function(d){
     var l = 2500, t = 3800, r = t - 3000, n = 50, o = 150, c = 500, h = c + 800, p = 600, e = 1500;

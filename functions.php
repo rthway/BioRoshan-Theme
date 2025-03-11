@@ -25,6 +25,8 @@ add_action('after_setup_theme', 'bioroshan_theme_setup');
 // Enqueue scripts and styles
 function bioroshan_enqueue_assets() {
     wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/css/vendor/bootstrap.min.css', [], '5.0.0');
+    wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/js/vendor/feather.min.js');
+    wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/js/vendor/bootstrap.js');
     wp_enqueue_style('main-style', get_stylesheet_uri(), [], '1.0');
     wp_enqueue_script('main-js', get_template_directory_uri() . '/assets/js/main.js', ['jquery'], '1.0', true);
     wp_enqueue_script('text-type-js', get_template_directory_uri() . '/assets/js/vendor/text-type.js', ['jquery'], '1.0', true);
@@ -263,6 +265,102 @@ function bioroshan_customize_register($wp_customize) {
             'section'  => 'service_area',
             'type'     => 'textarea',
         ));
+
+
+        // Add a Section for Contact Section
+    $wp_customize->add_section('contact_section', array(
+        'title'       => __('Contact Section', 'bioroshan'),
+        'description' => __('Customize the contact section', 'bioroshan'),
+        'priority'    => 30,
+    ));
+
+    // Add setting for the Subtitle
+    $wp_customize->add_setting('contact_section_subtitle', array(
+        'default'   => 'Contact',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('contact_section_subtitle', array(
+        'label'   => __('Subtitle', 'bioroshan'),
+        'section' => 'contact_section',
+        'type'    => 'text',
+    ));
+
+    // Add setting for the Title
+    $wp_customize->add_setting('contact_section_title', array(
+        'default'   => 'Contact With Me',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('contact_section_title', array(
+        'label'   => __('Title', 'bioroshan'),
+        'section' => 'contact_section',
+        'type'    => 'text',
+    ));
+
+    // Add setting for Contact Image URL
+    $wp_customize->add_setting('contact_image_url', array(
+        'default'   => get_template_directory_uri() . '/assets/images/contact/contact1.png',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('contact_image_url', array(
+        'label'   => __('Contact Image URL', 'bioroshan'),
+        'section' => 'contact_section',
+        'type'    => 'url',
+    ));
+
+    // Add setting for the Contact Person Name
+    $wp_customize->add_setting('contact_person_name', array(
+        'default'   => 'Roshan Kumar Thapa',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('contact_person_name', array(
+        'label'   => __('Contact Person Name', 'bioroshan'),
+        'section' => 'contact_section',
+        'type'    => 'text',
+    ));
+
+    // Add setting for the Contact Person Title
+    $wp_customize->add_setting('contact_person_title', array(
+        'default'   => 'Chief Operating Officer',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('contact_person_title', array(
+        'label'   => __('Contact Person Title', 'bioroshan'),
+        'section' => 'contact_section',
+        'type'    => 'text',
+    ));
+
+    // Add setting for Description Text
+    $wp_customize->add_setting('contact_description', array(
+        'default'   => 'I am available for freelance work. Connect with me via and call in to my account.',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('contact_description', array(
+        'label'   => __('Description', 'bioroshan'),
+        'section' => 'contact_section',
+        'type'    => 'textarea',
+    ));
+
+    // Add setting for Phone Number
+    $wp_customize->add_setting('contact_phone', array(
+        'default'   => '+01234567890',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('contact_phone', array(
+        'label'   => __('Phone Number', 'bioroshan'),
+        'section' => 'contact_section',
+        'type'    => 'text',
+    ));
+
+    // Add setting for Email Address
+    $wp_customize->add_setting('contact_email', array(
+        'default'   => 'admin@example.com',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('contact_email', array(
+        'label'   => __('Email Address', 'bioroshan'),
+        'section' => 'contact_section',
+        'type'    => 'email',
+    ));
     }
 }
 add_action('customize_register', 'bioroshan_customize_register');
@@ -318,6 +416,3 @@ function portfolio_single_template($single) {
     // Return the default template if no custom template is found
     return $single;
 }
-
-// Hook the function to the 'single_template' filter to determine which template to use for single posts
-add_filter('single_template', 'portfolio_single_template');
